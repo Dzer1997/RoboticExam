@@ -52,6 +52,6 @@ for file in csv_files:
 final_df = pd.concat(combined_df, ignore_index=True)
 
 
-final_df.to_excel('combined_output.xlsx', index=False)
+final_df.to_csv("C:\\temp\\F1.Cleaned.csv", index=False)
 
-print("All data saved to 'combined_output.xlsx'.")
+print("All data saved to 'F1.Cleaned.csv'.")
