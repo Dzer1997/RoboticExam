@@ -51,6 +51,9 @@ for file in csv_files:
 
 final_df = pd.concat(combined_df, ignore_index=True)
 
+final_df= final_df.rename(columns={"Grand Prix":'Grand_prix', "Date" : "Race_date", "Time":"Race_time"
+                                
+})
 
 final_df.to_excel('combined_output.xlsx', index=False)
 
