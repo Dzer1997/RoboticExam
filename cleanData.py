@@ -55,6 +55,6 @@ final_df= final_df.rename(columns={"Grand Prix":'Grand_prix', "Date" : "Race_dat
                                 
 })
 
-final_df.to_excel('combined_output.xlsx', index=False)
+final_df.to_csv("C:\\temp\\F1Cleaned.csv", index=False)
 
-print("All data saved to 'combined_output.xlsx'.")
+print("All data saved to 'F1.Cleaned.csv'.")
