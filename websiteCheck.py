@@ -1,24 +1,36 @@
-import time
-import datetime
+import requests
+from bs4 import BeautifulSoup
 import sys
 
-def log(message):
-    timestamp = datetime.datetime.now().isoformat()
-    with open("log.txt", "a", encoding="utf-8") as f:
-        f.write(f"[{timestamp}] {message}\n")
+urls = [
+    "https://www.formula1.com/en/results/2021/races",
+    "https://www.formula1.com/en/results/2022/races",
+    "https://www.formula1.com/en/results/2023/races",
+    "https://www.formula1.com/en/results/2024/races",
+    "https://www.formula1.com/en/results/205/races"
+]
 
-try:
-    log("Script started")
+def check_website(url):
+    try:
+        response = requests.get(url, timeout=10)
+        response.raise_for_status()  # Raises error if HTTP status is 4xx or 5xx
+    except Exception as e:
+        print(f"ERROR: Could not reach {url}: {e}")
+        return False
 
-    print("Checking F1 results...", flush=True)
-    time.sleep(5)
+    # Parse HTML and check for table
+    soup = BeautifulSoup(response.text, "html.parser")
+    table = soup.find("table")
+    if not table:
+        print(f"ERROR: No table found on {url}")
+        return False
 
-    log("Check complete - no issues found")
-    print("Check complete - no issues found", flush=True)
+    print(f"{url} is up and contains a table.")
+    return True
 
-    sys.exit(0)  # explicitly exit successfully
+for url in urls:
+    if not check_website(url):
+        sys.exit(1)  # Exit immediately on failure
 
-except Exception as e:
-    log(f"ERROR: {str(e)}")
-    print(f"ERROR: {str(e)}", flush=True)
-    sys.exit(1)
+print("All websites are reachable and contain a table.")
+sys.exit(0)
